@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Engines Hub</title>
+    <style>
+        :root {
+            --primary-color: #4a6fa5;
+            --secondary-color: #166088;
+            --accent-color: #12b5cb;
+            --light-bg: #f8fafc;
+            --dark-bg: #1a202c;
+            --text-light: #f8fafc;
+            --text-dark: #1a202c;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --radius: 8px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+            line-height: 1.6;
+            padding: 0;
+            margin: 0;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--text-light);
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto 1.5rem;
+        }
+
+        .search-container {
+            position: relative;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .search-bar:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.3), var(--shadow);
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: 1.5rem;
+            right: 2rem;
+            background: transparent;
+            border: 2px solid var(--text-light);
+            color: var(--text-light);
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .categories-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .category {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .category:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .category-header {
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            color: var(--text-light);
+            padding: 1rem 1.5rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .category-icon {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .category-links {
+            padding: 1.5rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 1rem;
+        }
+
+        .search-link {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text-dark);
+            padding: 0.5rem;
+            border-radius: var(--radius);
+            transition: var(--transition);
+            font-size: 0.9rem;
+            gap: 0.5rem;
+            border: 1px solid transparent;
+        }
+
+        .search-link:hover {
+            background-color: rgba(74, 111, 165, 0.1);
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .search-link img {
+            width: 16px;
+            height: 16px;
+            border-radius: 3px;
+            object-fit: cover;
+        }
+
+        .small-icon {
+            color: var(--secondary-color);
+            font-size: 16px;
+        }
+
+        footer {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: var(--text-light);
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* Dark mode styles */
+        body.dark-mode {
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+        }
+
+        body.dark-mode .category {
+            background: #2d3748;
+        }
+
+        body.dark-mode .search-link {
+            color: var(--text-light);
+        }
+
+        body.dark-mode .search-link:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        body.dark-mode .theme-toggle {
+            border-color: var(--text-light);
+            color: var(--text-light);
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            header {
+                padding: 1.5rem 0;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .theme-toggle {
+                top: 1rem;
+                right: 1rem;
+                padding: 0.4rem 0.8rem;
+                font-size: 0.9rem;
+            }
+
+            .categories-container {
+                grid-template-columns: 1fr;
+            }
+
+            .category-links {
+                grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .category {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .category:nth-child(1) { animation-delay: 0.1s; }
+        .category:nth-child(2) { animation-delay: 0.2s; }
+        .category:nth-child(3) { animation-delay: 0.3s; }
+        .category:nth-child(4) { animation-delay: 0.4s; }
+        .category:nth-child(5) { animation-delay: 0.5s; }
+        .category:nth-child(6) { animation-delay: 0.6s; }
+        .category:nth-child(7) { animation-delay: 0.7s; }
+        .category:nth-child(8) { animation-delay: 0.8s; }
+        .category:nth-child(9) { animation-delay: 0.9s; }
+        .category:nth-child(10) { animation-delay: 1s; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>Search Engines Hub</h1>
+            <p class="subtitle">Your centralized gateway to the internet's most powerful search resources</p>
+            <div class="search-container">
+                <input type="text" class="search-bar" placeholder="Filter search engines..." id="filter-input">
+            </div>
+        </div>
+        <button class="theme-toggle" id="theme-toggle">Toggle Dark Mode</button>
+    </header>
+
+    <main>
+        <div class="categories-container">
+            <!-- General Web Search -->
+            <div class="category" data-category="general">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                    </div>
+                    General Web Search
+                </div>
+                <div class="category-links">
+                    <a href="https://www.bing.com" class="search-link" target="_blank">
+                        <i class="small-icon">🔍</i> Bing
+                    </a>
+                    <a href="https://duckduckgo.com" class="search-link" target="_blank">
+                        <i class="small-icon">🦆</i> DuckDuckGo
+                    </a>
+                    <a href="https://search.brave.com" class="search-link" target="_blank">
+                        <i class="small-icon">🦁</i> Brave Search
+                    </a>
+                    <a href="https://www.ecosia.org" class="search-link" target="_blank">
+                        <i class="small-icon">🌳</i> Ecosia
+                    </a>
+                    <a href="https://www.startpage.com" class="search-link" target="_blank">
+                        <i class="small-icon">🔒</i> Startpage
+                    </a>
+                    <a href="https://www.mojeek.com" class="search-link" target="_blank">
+                        <i class="small-icon">🔍</i> Mojeek
+                    </a>
+                    <a href="https://presearch.com" class="search-link" target="_blank">
+                        <i class="small-icon">🔍</i> Presearch
+                    </a>
+                    <a href="https://www.qwant.com" class="search-link" target="_blank">
+                        <i class="small-icon">🔍</i> Qwant
+                    </a>
+                    <a href="https://swisscows.com" class="search-link" target="_blank">
+                        <i class="small-icon">🐄</i> Swisscows
+                    </a>
+                    <a href="https://search.yahoo.com" class="search-link" target="_blank">
+                        <i class="small-icon">🔍</i> Yahoo
+                    </a>
+                    <a href="https://yep.com" class="search-link" target="_blank">
+                        <i class="small-icon">👍</i> Yep
+                    </a>
+                    <a href="https://gibiru.com" class="search-link" target="_blank">
+                        <i class="small-icon">🔍</i> Gibiru
+                    </a>
+                </div>
+            </div>
+
+            <!-- Image Search -->
+            <div class="category" data-category="image">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                            <polyline points="21 15 16 10 5 21"></polyline>
+                        </svg>
+                    </div>
+                    Image Search
+                </div>
+                <div class="category-links">
+                    <a href="https://images.google.com" class="search-link" target="_blank">
+                        <i class="small-icon">🖼️</i> Google Images
+                    </a>
+                    <a href="https://www.bing.com/images" class="search-link" target="_blank">
+                        <i class="small-icon">🖼️</i> Bing Images
+                    </a>
+                    <a href="https://swisscows.com/en/images" class="search-link" target="_blank">
+                        <i class="small-icon">🖼️</i> Swisscows
+                    </a>
+                    <a href="https://pixabay.com" class="search-link" target="_blank">
+                        <i class="small-icon">🖼️</i> Pixabay
+                    </a>
+                    <a href="https://unsplash.com" class="search-link" target="_blank">
+                        <i class="small-icon">📸</i> Unsplash
+                    </a>
+                    <a href="https://www.pexels.com" class="search-link" target="_blank">
+                        <i class="small-icon">📸</i> Pexels
+                    </a>
+                    <a href="https://www.shutterstock.com" class="search-link" target="_blank">
+                        <i class="small-icon">🖼️</i> Shutterstock
+                    </a>
+                    <a href="https://www.gettyimages.com" class="search-link" target="_blank">
+                        <i class="small-icon">🖼️</i> Getty Images
+                    </a>
+                    <a href="https://tineye.com" class="search-link" target="_blank">
+                        <i class="small-icon">🔍</i> TinEye
+                    </a>
+                    <a href="https://yandex.com/images" class="search-link" target="_blank">
+                        <i class="small-icon">🔍</i> Yandex Images
+                    </a>
+                </div>
+            </div>
+
+            <!-- Video Search -->
+            <div class="category" data-category="video">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="23 7 16 12 23 17 23 7"></polygon>
+                            <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+                        </svg>
+                    </div>
+                    Video Search
+                </div>
+                <div class="category-links">
+                    <a href="https://www.youtube.com" class="search-link" target="_blank">
+                        <i class="small-icon">📹</i> YouTube
+                    </a>
+                    <a href="https://www.bing.com/videos" class="search-link" target="_blank">
+                        <i class="small-icon">🎬</i> Bing Videos
+                    </a>
+                    <a href="https://vimeo.com" class="search-link" target="_blank">
+                        <i class="small-icon">🎬</i> Vimeo
+                    </a>
+                    <a href="https://www.dailymotion.com" class="search-link" target="_blank">
+                        <i class="small-icon">📺</i> Dailymotion
+                    </a>
+                    <a href="https://joinpeertube.org/instances" class="search-link" target="_blank">
+                        <i class="small-icon">📺</i> PeerTube
+                    </a>
+                </div>
+            </div>
+
+            <!-- Academic/Scientific Search -->
+            <div class="category" data-category="academic">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                        </svg>
+                    </div>
+                    Academic/Scientific Search
+                </div>
+                <div class="category-links">
+                    <a href="https://scholar.google.com" class="search-link" target="_blank">
+                        <i class="small-icon">🎓</i> Google Scholar
+                    </a>
+                    <a href="https://www.semanticscholar.org" class="search-link" target="_blank">
+                        <i class="small-icon">📚</i> Semantic Scholar
+                    </a>
+                    <a href="https://pubmed.ncbi.nlm.nih.gov" class="search-link" target="_blank">
+                        <i class="small-icon">🔬</i> PubMed
+                    </a>
+                    <a href="https://arxiv.org" class="search-link" target="_blank">
+                        <i class="small-icon">📑</i> arXiv
+                    </a>
+                    <a href="https://www.webofscience.com" class="search-link" target="_blank">
+                        <i class="small-icon">🌐</i> Web of Science
+                    </a>
+                    <a href="https://www.scopus.com" class="search-link" target="_blank">
+                        <i class="small-icon">📊</i> Scopus
+                    </a>
+                    <a href="https://www.jstor.org" class="search-link" target="_blank">
+                        <i class="small-icon">📚</i> JSTOR
+                    </a>
+                    <a href="https://core.ac.uk" class="search-link" target="_blank">
+                        <i class="small-icon">📑</i> CORE
+                    </a>
+                    <a href="https://www.ssrn.com" class="search-link" target="_blank">
+                        <i class="small-icon">📝</i> SSRN
+                    </a>
+                </div>
+            </div>
+
+            <!-- Dark Web Search -->
+            <div class="category" data-category="darkweb">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path>
+                        </svg>
+                    </div>
+                    Dark Web Search
+                </div>
+                <div class="category-links">
+                    <a href="https://ahmia.fi" class="search-link" target="_blank">
+                        <i class="small-icon">🔍</i> Ahmia.fi
+                    </a>
+                    <span class="search-link" style="cursor: default; opacity: 0.6;">
+                        <i class="small-icon">🔍</i> Candle (Tor only)
+                    </span>
+                    <span class="search-link" style="cursor: default; opacity: 0.6;">
+                        <i class="small-icon">🔍</i> Torch (Tor only)
+                    </span>
+                    <span class="search-link" style="cursor: default; opacity: 0.6;">
+                        <i class="small-icon">🔍</i> Not Evil (Tor only)
+                    </span>
+                    <span class="search-link" style="cursor: default; opacity: 0.6;">
+                        <i class="small-icon">🔍</i> GreyMatter (Tor only)
+                    </span>
+                </div>
+            </div>
+
+            <!-- People Search -->
+            <div class="category" data-category="people">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                    </div>
+                    People Search
+                </div>
+                <div class="category-links">
+                    <a href="https://pipl.com" class="search-link" target="_blank">
+                        <i class="small-icon">👤</i> Pipl
+                    </a>
+                    <a href="https://www.spokeo.com" class="search-link" target="_blank">
+                        <i class="small-icon">👤</i> Spokeo
+                    </a>
+                    <a href="https://www.whitepages.com" class="search-link" target="_blank">
+                        <i class="small-icon">📖</i> Whitepages
+                    </a>
+                    <a href="https://www.beenverified.com" class="search-link" target="_blank">
+                        <i class="small-icon">✓</i> BeenVerified
+                    </a>
+                    <a href="https://www.intelius.com" class="search-link" target="_blank">
+                        <i class="small-icon">👤</i> Intelius
+                    </a>
+                    <a href="https://www.mylife.com" class="search-link" target="_blank">
+                        <i class="small-icon">👤</i> MyLife
+                    </a>
+                    <a href="https://www.linkedin.com" class="search-link" target="_blank">
+                        <i class="small-icon">💼</i> LinkedIn
+                    </a>
+                    <a href="https://www.familysearch.org" class="search-link" target="_blank">
+                        <i class="small-icon">👪</i> FamilySearch
+                    </a>
+                    <a href="https://www.ancestry.com" class="search-link" target="_blank">
+                        <i class="small-icon">🌳</i> Ancestry
+                    </a>
+                </div>
+            </div>
+
+            <!-- Market/Product Search -->
+            <div class="category" data-category="market">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="9" cy="21" r="1"></circle>
+                            <circle cx="20" cy="21" r="1"></circle>
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                        </svg>
+                    </div>
+                    Market/Product Search
+                </div>
+                <div class="category-links">
+                    <a href="https://shopping.google.com" class="search-link" target="_blank">
+                        <i class="small-icon">🛒</i> Google Shopping
+                    </a>
+                    <a href="https://www.amazon.com" class="search-link" target="_blank">
+                        <i class="small-icon">📦</i> Amazon
+                    </a>
+                    <a href="https://www.pricegrabber.com" class="search-link" target="_blank">
+                        <i class="small-icon">💰</i> PriceGrabber
+                    </a>
+                    <a href="https://www.pricerunner.com" class="search-link" target="_blank">
+                        <i class="small-icon">💰</i> PriceRunner
+                    </a>
+                    <a href="https://www.pricespy.co.uk" class="search-link" target="_blank">
+                        <i class="small-icon">💰</i> PriceSpy
+                    </a>
+                    <a href="https://www.similarweb.com" class="search-link" target="_blank">
+                        <i class="small-icon">📊</i> SimilarWeb
+                    </a>
+                    <a href="https://www.statista.com" class="search-link" target="_blank">
+                        <i class="small-icon">📊</i> Statista
+                    </a>
+                    <a href="https://www.crunchbase.com" class="search-link" target="_blank">
+                        <i class="small-icon">🏢</i> Crunchbase
+                    </a>
+                </div>
+            </div>
+
+            <!-- Legal, Medical, Financial Search -->
+            <div class="category" data-category="lmf">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                        </svg>
+                    </div>
+                    Legal, Medical, Financial
+                </div>
+                <div class="category-links">
+                    <a href="https://www.lexisnexis.com" class="search-link" target="_blank">
+                        <i class="small-icon">⚖️</i> LexisNexis
+                    </a>
+                    <a href="https://legal.thomsonreuters.com/en/westlaw" class="search-link" target="_blank">
+                        <i class="small-icon">⚖️</i> Westlaw
+                    </a>
+                    <a href="https://scholar.google.com/schhp?hl=en&as_sdt=0,5" class="search-link" target="_blank">
+                        <i class="small-icon">⚖️</i> Case Law
+                    </a>
+                    <a href="https://pacer.uscourts.gov" class="search-link" target="_blank">
+                        <i class="small-icon">⚖️</i> PACER
+                    </a>
+                    <a href="https://www.findlaw.com" class="search-link" target="_blank">
+                        <i class="small-icon">⚖️</i> FindLaw
+                    </a>
+                    <a href="https://www.justia.com" class="search-link" target="_blank">
+                        <i class="small-icon">⚖️</i> Justia
+                    </a>
+                    <a href="https://www.courtlistener.com" class="search-link" target="_blank">
+                        <i class="small-icon">⚖️</i> CourtListener
+                    </a>
+                    <a href="https://clinicaltrials.gov" class="search-link" target="_blank">
+                        <i class="small-icon">🔬</i> ClinicalTrials
+                    </a>
+                    <a href="https://www.uptodate.com" class="search-link" target="_blank">
+                        <i class="small-icon">🩺</i> UpToDate
+                    </a>
+                    <a href="https://www.sec.gov/edgar.shtml" class="search-link" target="_blank">
+                        <i class="small-icon">💹</i> SEC EDGAR
+                    </a>
+                    <a href="https://www.bloomberg.com" class="search-link" target="_blank">
+                        <i class="small-icon">💹</i> Bloomberg
+                    </a>
+                    <a href="https://www.refinitiv.com/en" class="search-link" target="_blank">
+                        <i class="small-icon">💹</i> Refinitiv
+                    </a>
+                    <a href="https://finance.yahoo.com" class="search-link" target="_blank">
+                        <i class="small-icon">💹</i> Yahoo Finance
+                    </a>
+                    <a href="https://www.google.com/finance" class="search-link" target="_blank">
+                        <i class="small-icon">💹</i> Google Finance
+                    </a>
+                </div>
+            </div>
+
+            <!-- Reverse Search -->
